@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Todo App</title>
+  <link rel="stylesheet" href="todo.css">
+</head>
+<body>
+
+    <div class="container" >
+        <h1>My Todo App</h1>        
+        <form class="add-form" id="add-form" style="display: flex; flex-direction: column;">
+          <input 
+            type="text" 
+            id="new-task" 
+            placeholder="What needs to be done?" 
+            autofocus
+          >
+
+          <label for="priority">Priority (Optional):</label>
+          <select id="priority" name="priority" >
+              <option value="">None</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+          </select>
+
+          <button type="submit" style="margin-top: 10px;">Add Task</button>
+        </form>        
+        <ul class="todo-list" id="todo-list">
+
+        </ul>
+        
+        <!-- Stats bar -->
+        <div class="stats" id="stats">
+          <span>2 items left</span>
+          <span>1 completed</span>
+        </div>
+      </div>
+
+
+      <script>
+
+document.getElementById("add-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const value = document.getElementById("new-task").value.trim();
+    const priority = document.getElementById("priority").value;
+    if (!value) {
+        return alert("Task is required!");
+    }
+    try {
+        const response = await fetch("/newTask", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+            },
+            body: JSON.stringify({ task:value,priority:priority} ), 
+        });
+        if (response.ok) {
+            alert("Task added successfully!");
+            document.getElementById("new-task").value = "";
+            let data = await response.json()
+            console.log(data)
+            renderTask(data.newtaskk);
+            
+        } else {
+            alert("Error adding task!");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});
+
+
+const todoList = document.getElementById("todo-list")
+
+function renderTask(task) {
+  const li = document.createElement("li");
+  li.className = "todo-item";
+  li.id = task.id;
+  
+ if(task.priority){
+    li.innerHTML = `
+<button class="toggle-btn" data-id="${task.id}" id="data-${task.id}" onClick="complete(${task.id})">○</button>
+    <span id="datas-${task.id}" >${task.name}[${task.priority}]</span>
+        <button class="delete-btn" onClick="deleteItem(${task.id})" data-id="${task.id}">×</button>
+  `;
+ }else{
+    li.innerHTML = `
+<button class="toggle-btn" data-id="${task.id}" id="data-${task.id}" onClick="complete(${task.id})">○</button>
+    <span id="datas-${task.id}" >${task.name}</span>
+        <button class="delete-btn" onClick="deleteItem(${task.id})" data-id="${task.id}">×</button>
+  `;
+ }
+  todoList.appendChild(li);
+}
+
+function complete(id){
+    let button = document.getElementById(`data-${id}`)
+    let task = document.getElementById(`datas-${id}`)
+    if (button.innerText === '○') {
+        button.innerText = '✔';
+        task.style.textDecoration = "line-through"; 
+    } else {
+        button.innerText = '○';
+        task.style.textDecoration = "none"; 
+
+    }
+}
+
+
+function deleteItem(id) {
+    fetch(`/delete/${id}`, { method: "POST" })
+        .then((response) => {
+            if (response.ok) {
+                let row = document.getElementById(id);
+                if (row) row.remove();
+            } else {
+                alert("Error occurred");
+            }
+        });
+}
+
+      </script>
+</body>
+</html>

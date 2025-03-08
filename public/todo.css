@@ -1,0 +1,125 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #3273dc;
+  }
+
+  .add-form {
+    display: flex;
+    margin-bottom: 1.5rem;
+  }
+
+  .add-form input ,select{
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+  }
+
+  .add-form button {
+    padding: 0.75rem 1.5rem;
+    background-color: #3273dc;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+  }
+
+  .add-form button:hover {
+    background-color: #2366d1;
+  }
+
+  .todo-list {
+    list-style-type: none;
+  }
+
+  .todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .todo-content {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+
+  .toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #aaa;
+    line-height: 1;
+    margin-right: 1rem;
+  }
+
+  .completed .toggle-btn {
+    color: #3273dc;
+  }
+
+  .todo-text {
+    font-size: 1rem;
+  }
+
+  .completed .todo-text {
+    text-decoration: line-through;
+    color: #aaa;
+  }
+
+  .delete-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ff3860;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+
+  .delete-btn:hover {
+    opacity: 1;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: #aaa;
+    font-style: italic;
+    padding: 1rem 0;
+  }
+
+  .stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    color: #777;
+    font-size: 0.9rem;
+  }
